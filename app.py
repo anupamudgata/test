@@ -6,9 +6,6 @@ import os
 # Load environment variables
 load_dotenv()
 
-# Configure OpenAI API
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
 # Configure Streamlit page
 st.set_page_config(page_title="ChatBot", page_icon="🤖")
 st.title("Simple ChatBot 🤖")
@@ -21,6 +18,9 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+
+# Configure OpenAI API
+client = openai.OpenAI()  # This will automatically use the key from environment variables
 
 # Chat input
 if prompt := st.chat_input("What's on your mind?"):
@@ -35,7 +35,6 @@ if prompt := st.chat_input("What's on your mind?"):
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         try:
-            client = openai.OpenAI()
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
