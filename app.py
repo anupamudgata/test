@@ -20,7 +20,10 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # Configure OpenAI API
-client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))# This will automatically use the key from environment variables
+load_dotenv()
+   api_key = os.getenv("OPENAI_API_KEY")
+   print(f"Loaded API Key: {api_key}")  # This should print your API key (or None if not loaded)
+   client = openai.OpenAI(api_key=api_key)# This will automatically use the key from environment variables
 
 # Chat input
 if prompt := st.chat_input("What's on your mind?"):
